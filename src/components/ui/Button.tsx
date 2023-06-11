@@ -12,11 +12,12 @@ export const buttonVariants = cva(
         cancel: 'bg-gray-100 hover:bg-gray-200',
         danger: 'bg-red-600 text-white hover:bg-red-700',
         black: 'bg-black text-white hover:bg-[#191919]',
+        outline: 'border border-[#373f51] hover:bg-[#f5f6f9]',
       },
       size: {
-        default: 'h-12 py-2 px-8',
-        sm: 'h-9 px-4 text-sm',
+        sm: 'h-9 px-6 text-sm sm:min-w-min',
         lg: 'h-14 px-16',
+        default: 'h-12 py-2 px-8',
       },
     },
     defaultVariants: {

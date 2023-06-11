@@ -1,7 +1,7 @@
 'use client';
 
 import {
-  MousePointerClick,
+  Compass,
   Wallet,
   Heart,
   MessageCircle,
@@ -14,6 +14,10 @@ import {
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { useCollapseSidebar } from '@/contexts/CollapseSidebar.context';
+import Link from 'next/link';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/Avatar';
+import { usePathname } from 'next/navigation';
+import { bool } from 'sharp';
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -22,6 +26,7 @@ interface SidebarItemNameProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 export const Sidebar: React.FC<SidebarProps> = () => {
+  const pathname = usePathname();
   const {
     collapseClickOrHover,
     collapseClick,
@@ -68,15 +73,37 @@ export const Sidebar: React.FC<SidebarProps> = () => {
         </SidebarItemName>
       </div>
 
-      <SidebarItem>
-        <span>
-          <MousePointerClick size={20} />
-        </span>
-        <SidebarItemName isCollapse={collapseClickOrHover}>
-          Explore
-        </SidebarItemName>
-      </SidebarItem>
-      <SidebarItem>
+      <Link href="/douglas-eduardo">
+        <SidebarItem
+          className="gap-x-2.5"
+          active={pathname === '/douglas-eduardo'}
+        >
+          <Avatar className="w-8 h-8 -ml-1.5">
+            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarFallback>DS</AvatarFallback>
+          </Avatar>
+          <SidebarItemName
+            isCollapse={collapseClickOrHover}
+            className="font-semibold shrink-0"
+          >
+            <p>Douglas Santos</p>
+          </SidebarItemName>
+        </SidebarItem>
+      </Link>
+
+      <hr className="my-3 border-[#2c323e]" />
+
+      <Link href="/explore">
+        <SidebarItem active={pathname === '/explore'}>
+          <span>
+            <Compass size={20} />
+          </span>
+          <SidebarItemName isCollapse={collapseClickOrHover}>
+            Explore
+          </SidebarItemName>
+        </SidebarItem>
+      </Link>
+      <SidebarItem active={pathname === '/messages'}>
         <span>
           <MessageCircle size={20} />
         </span>
@@ -84,7 +111,7 @@ export const Sidebar: React.FC<SidebarProps> = () => {
           Messages
         </SidebarItemName>
       </SidebarItem>
-      <SidebarItem>
+      <SidebarItem active={pathname === '/saved'}>
         <span>
           <Heart size={20} />
         </span>
@@ -93,7 +120,7 @@ export const Sidebar: React.FC<SidebarProps> = () => {
         </SidebarItemName>
       </SidebarItem>
       <hr className="my-3 border-[#2c323e]" />
-      <SidebarItem>
+      <SidebarItem active={pathname === '/wallet'}>
         <span>
           <Wallet size={20} />
         </span>
@@ -101,7 +128,7 @@ export const Sidebar: React.FC<SidebarProps> = () => {
           Wallet
         </SidebarItemName>
       </SidebarItem>
-      <SidebarItem>
+      <SidebarItem active={pathname === '/opportunities'}>
         <span>
           <Briefcase size={20} />
         </span>
@@ -110,14 +137,16 @@ export const Sidebar: React.FC<SidebarProps> = () => {
         </SidebarItemName>
       </SidebarItem>
       <hr className="my-3 border-[#2c323e]" />
-      <SidebarItem>
-        <span>
-          <Settings size={20} />
-        </span>
-        <SidebarItemName isCollapse={collapseClickOrHover}>
-          Settings
-        </SidebarItemName>
-      </SidebarItem>
+      <Link href="/settings">
+        <SidebarItem active={pathname === '/settings'}>
+          <span>
+            <Settings size={20} />
+          </span>
+          <SidebarItemName isCollapse={collapseClickOrHover}>
+            Settings
+          </SidebarItemName>
+        </SidebarItem>
+      </Link>
     </>
   );
 
@@ -143,6 +172,11 @@ export const Sidebar: React.FC<SidebarProps> = () => {
 
       <div className="relative hidden lg:block">
         <div
+          className={`will-change-[width] transition-all duration-300 ${
+            collapseClick ? 'w-64' : 'w-16'
+          }`}
+        />
+        <div
           className={`block inset-0 fixed ${
             collapseClickOrHover ? 'w-64' : 'w-16'
           }  z-[60] will-change-[width] transition-all duration-300`}
@@ -158,8 +192,18 @@ export const Sidebar: React.FC<SidebarProps> = () => {
   );
 };
 
-const SidebarItem: React.FC<SidebarProps> = ({ children }) => (
-  <div className="relative flex gap-x-4 cursor-pointer select-none items-center rounded-lg px-2.5 py-2.5 text-sm text-white outline-none transition-colors hover:bg-gray-700 hover:text-accent">
+const SidebarItem: React.FC<SidebarProps & { active: boolean }> = ({
+  active,
+  className,
+  children,
+}) => (
+  <div
+    className={cn(
+      'relative flex gap-x-4 cursor-pointer select-none items-center rounded-lg px-2.5 py-2.5 text-sm text-white outline-none transition-colors hover:bg-gray-700 hover:text-accent',
+      active ? 'bg-gray-700' : '',
+      className
+    )}
+  >
     {children}
   </div>
 );
@@ -173,7 +217,7 @@ const SidebarItemName: React.FC<SidebarItemNameProps> = ({
   return (
     <span
       className={cn(
-        `transition-all duration-500 ${
+        `shrink-0 transition-all duration-500 ${
           !isCollapse ? 'opacity-0' : 'opacity-100'
         }`,
         className

@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import {
   createContext,
   ReactNode,
@@ -37,6 +38,7 @@ const CollapseSidebarContext =
 const CollapseSidebarProvider = ({ children }: { children: ReactNode }) => {
   const isDesktop = useMediaQuery({ minWidth: 1280 });
   const isMobile = !useMediaQuery({ minWidth: 1024 });
+  const pathname = usePathname();
   const [collapse, setCollapse] = useState({
     click: false,
     hover: false,
@@ -80,6 +82,12 @@ const CollapseSidebarProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [collapse]);
 
+  useEffect(() => {
+    if (isMobile) {
+      handleCloseCollapse();
+    }
+  }, [isMobile, pathname, handleCloseCollapse]);
+
   const value: CollapseSidebarContextInterface = useMemo(
     () => ({
       collapseClickOrHover: collapse.click || collapse.hover,
@@ -109,11 +117,11 @@ const CollapseSidebarProvider = ({ children }: { children: ReactNode }) => {
 
 const useCollapseSidebar: () => CollapseSidebarContextInterface = () => {
   const stateContext = useContext(CollapseSidebarContext);
-  // if (stateContext === null) {
-  //   throw new Error(
-  //     'useState() can only be used inside of <StateProvider />, please declare it at a higher level.'
-  //   );
-  // }
+  if (stateContext === null) {
+    throw new Error(
+      'useCollapseSidebar() can only be used inside of <CollapseSidebarProvider />, please declare it at a higher level.'
+    );
+  }
   return stateContext;
 };
 

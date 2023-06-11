@@ -9,41 +9,8 @@ export default function Home() {
   return (
     <>
       <UserProfileSidebar />
-      <Dialog.Root>
-        {/* <Dialog.Trigger asChild>
-          <Button variant="default">Edit Profile</Button>
-        </Dialog.Trigger> */}
-        <Dialog.Content className="sm:max-w-[425px]">
-          <Dialog.Header>
-            <Dialog.Title>Edit profile</Dialog.Title>
-            <Dialog.Description>
-              Make changes to your profile here. Click save when you&apos;re
-              done.
-            </Dialog.Description>
-          </Dialog.Header>
-          {/* <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <label htmlFor="name" className="text-right">
-                Name
-              </label>
-              <input id="name" value="Pedro Duarte" className="col-span-3" />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <label htmlFor="username" className="text-right">
-                Username
-              </label>
-              <input id="username" value="@peduarte" className="col-span-3" />
-            </div>
-          </div> */}
-          <Dialog.Footer>
-            <Button type="submit">Save changes</Button>
-            <Dialog.Close asChild>
-              <Button variant="cancel">Cancel</Button>
-            </Dialog.Close>
-          </Dialog.Footer>
-        </Dialog.Content>
-      </Dialog.Root>
-      {/* <main className="flex min-h-screen flex-col items-center justify-between p-24">
+
+      {/* <main className="flex min-h-screen flex-col items-center justify-between p-24 font-">
         <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
           <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
             Get started by editing&nbsp;

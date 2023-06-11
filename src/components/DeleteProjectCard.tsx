@@ -6,7 +6,7 @@ export const DeleteProjectCard = () => {
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
-        <div className="absolute top-2 right-2 flex justify-center items-center rounded-full w-12 h-12 bg-gray-100 transition-all cursor-pointer z-10 hover:bg-gray-200 xl:top-3 xl:right-3">
+        <div className="absolute top-2 right-2 flex justify-center items-center rounded-full w-12 h-12 bg-gray-100 transition-all cursor-pointer z-10 hover:bg-gray-200 xl:top-3 xl:right-3 active:scale-90">
           <button className="font-semibold text-xs text-red-500">
             <Trash2 size={18} />
           </button>

@@ -8,7 +8,7 @@ export const CreateProjectCard = () => {
       <div className="max-w-[240px]">
         <Dialog.Root>
           <Dialog.Trigger asChild>
-            <button className="w-20 h-20 p-0.5 rounded-full border-2 border-[#e6e8ec] hover:bg-[#f5f6f9] transition-colors">
+            <button className="active:scale-90 w-20 h-20 p-0.5 rounded-full border-2 border-[#e6e8ec] hover:bg-[#f5f6f9] transition-all">
               <span className="flex items-center justify-center text-2xl">
                 +
               </span>

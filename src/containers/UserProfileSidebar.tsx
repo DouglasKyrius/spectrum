@@ -16,7 +16,7 @@ import { BadgeUnchecked } from '@/components/icons/BadgeUnchecked';
 
 export default function UserProfileSidebar() {
   return (
-    <div className="flex flex-col flex-nowrap items-center relative py-14 px-8 w-full border bg-white/[0.4] lg:min-w-[416px] lg:max-w-lg xl:my-8 xl:rounded-3xl">
+    <div className="flex flex-col flex-nowrap items-center relative py-14 px-8 w-full border bg-white/[0.4] lg:min-w-[416px] lg:max-w-lg xl:rounded-3xl">
       <div className="flex flex-col flex-nowrap items-center w-full max-w-sm gap-y-1.5 lg:sticky lg:top-36">
         <div className="max-w-[144px] lg:max-w-[208px]">
           <Image
