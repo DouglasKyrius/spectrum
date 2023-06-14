@@ -1,12 +1,7 @@
-'use client';
-
 import UserProfileSidebar from '@/containers/UserProfileSidebar';
 import { UserProjectsList } from '@/containers/UserProjectsList';
-import { useCollapseSidebar } from '@/contexts/CollapseSidebar.context';
 
 export default function UserPage() {
-  const { collapseClick } = useCollapseSidebar();
-
   return (
     <div className="flex flex-1 min-h-screen transition-all">
       <div className="flex-1 w-full relative">
