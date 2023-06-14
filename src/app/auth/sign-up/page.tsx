@@ -1,24 +1,41 @@
-import { FcGoogle } from 'react-icons/fc';
+'use client';
 
+import Link from 'next/link';
+import Image from 'next/image';
+import { useState } from 'react';
+import { FcGoogle } from 'react-icons/fc';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/input';
-import Image from 'next/image';
-import Link from 'next/link';
 
-export default function LogInPage() {
+export default function SignUpPage() {
+  const [isLoading, setLoading] = useState(false);
+
+  const handleGoogleRedirect = () => {
+    setLoading(true);
+    window.location.assign(
+      process.env.NEXT_PUBLIC_BACKEND_GOOGLE_LOGIN as string
+    );
+  };
+
   return (
-    <div className="lg:my-10 lg:px-6">
-      <div className="grid lg:bg-white max-w-7xl m-auto gap-y-12 rounded-3xl p-4 lg:min-h-[760px] lg:px-24 lg:py-32">
+    <div className="lg:my-8 lg:px-6">
+      <div className="grid lg:bg-white max-w-7xl m-auto gap-y-12 rounded-3xl p-4 lg:min-h-[760px] lg:px-24 lg:py-24">
         <div className="lg:flex justify-between items-center gap-x-28">
           <div className="lg:w-1/2">
             <div className="text-center lg:text-start">
               <h1 className="text-2xl lg:text-4xl font-semibold">
-                Welcome back 👋
+                Create an account
               </h1>
-              <p className="text-sm lg:text-base">Please enter your details</p>
+              <p className="text-sm lg:text-base">Let&apos;s get started</p>
             </div>
             <div className="my-4 lg:my-8">
               <div className="flex flex-col gap-y-4">
+                <Input
+                  id="displayName"
+                  type="text"
+                  label="Your name"
+                  placeholder="John Doe"
+                />
                 <Input
                   id="emailAddress"
                   type="email"
@@ -31,12 +48,17 @@ export default function LogInPage() {
                   label="Password"
                   placeholder="* * * *"
                 />
-                <Button variant="black">Log in</Button>
+                <Button variant="black">Sign up</Button>
               </div>
               <div className="flex flex-col gap-y-4 my-4">
                 <p className="text-[#9ba2b0] text-xs m-auto">OR</p>
-                <Button variant={'cancel'} className="gap-x-2">
-                  <FcGoogle size={24} /> Continue with Google
+                <Button
+                  variant={'cancel'}
+                  className="gap-x-2"
+                  onClick={handleGoogleRedirect}
+                  isLoading={isLoading}
+                >
+                  <FcGoogle size={24} /> Sign up with Google
                 </Button>
               </div>
             </div>
@@ -51,12 +73,10 @@ export default function LogInPage() {
           </div>
         </div>
         <div className="flex flex-wrap justify-center items-center gap-4">
-          <p className="text-zinc-500 text-sm">
-            Don&apos;t have an account? Create a free account here
-          </p>
-          <Link href="/sign-up">
+          <p className="text-zinc-500 text-sm">Already have an account?</p>
+          <Link href="/auth/log-in">
             <Button variant="outline" size="sm">
-              Sign up
+              Log in
             </Button>
           </Link>
         </div>
