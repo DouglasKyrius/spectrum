@@ -27,7 +27,7 @@ export const DeleteProjectCard = () => {
             Delete Project
           </Button>
           <Dialog.Close asChild>
-            <Button variant="cancel">Never mind</Button>
+            <Button variant="gray">Never mind</Button>
           </Dialog.Close>
         </Dialog.Footer>
       </Dialog.Content>

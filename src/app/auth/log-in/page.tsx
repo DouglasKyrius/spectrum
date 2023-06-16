@@ -47,7 +47,7 @@ export default function LogInPage() {
               <div className="flex flex-col gap-y-4 my-4">
                 <p className="text-[#9ba2b0] text-xs m-auto">OR</p>
                 <Button
-                  variant={'cancel'}
+                  variant={'gray'}
                   className="gap-x-2"
                   onClick={handleGoogleRedirect}
                   isLoading={isLoading}

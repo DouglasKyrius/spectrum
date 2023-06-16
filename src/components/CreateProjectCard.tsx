@@ -1,4 +1,3 @@
-import { LineChart } from 'lucide-react';
 import { Button } from './ui/Button';
 import { Dialog } from './ui/Dialog';
 
@@ -44,7 +43,7 @@ export const CreateProjectCard = () => {
             <Dialog.Footer>
               <Button type="submit">Add Project</Button>
               <Dialog.Close asChild>
-                <Button variant="cancel">Cancel</Button>
+                <Button variant="gray">Cancel</Button>
               </Dialog.Close>
             </Dialog.Footer>
           </Dialog.Content>
@@ -56,9 +55,6 @@ export const CreateProjectCard = () => {
         </h1>
         <p className="text-sm xl:text-base text-slate-600">
           Projects highlight your best skills and experience. ⭐️
-        </p>
-        <p className="text-sm xl:text-base text-slate-600">
-          Need project inspiration?
         </p>
       </div>
     </div>
