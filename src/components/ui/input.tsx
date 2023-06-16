@@ -4,15 +4,17 @@ import { cn } from '@/lib/utils';
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
+  hasError?: boolean;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, className, type, disabled, id, ...props }, ref) => {
+  ({ label, className, type, disabled, id, hasError, ...props }, ref) => {
     return (
       <div
         className={cn(
           'rounded-md border border-input px-4 py-1 hover:border-[#9ba2b0] focus-within:border-[#222834] hover:focus-within:border-[#222834] transition-colors',
           disabled ? 'cursor-not-allowed opacity-50' : '',
+          hasError ? 'border-red-500' : '',
           className
         )}
       >

@@ -1,8 +1,5 @@
 'use client';
-import Image from 'next/image';
-// Components
-import { Button } from '@/components/ui/Button';
-import { Dialog } from '@/components/ui/Dialog';
+// Containers
 import UserProfileSidebar from '@/containers/UserProfileSidebar';
 
 export default function Home() {

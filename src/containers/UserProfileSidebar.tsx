@@ -13,14 +13,19 @@ import { Button } from '@/components/ui/Button';
 import { Dialog } from '@/components/ui/Dialog';
 import { Badge } from '@/components/icons/Badge';
 import { BadgeUnchecked } from '@/components/icons/BadgeUnchecked';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
+import useAuth from '@/hooks/useAuth';
+import { displayNameFallback } from '@/utils/displayNameFallback';
 
 export default function UserProfileSidebar() {
+  const { user } = useAuth();
+
   return (
     <div className="flex flex-col flex-nowrap items-center relative py-14 px-8 w-full border bg-white/[0.4] lg:min-w-[416px] lg:max-w-lg xl:rounded-3xl">
       <div className="flex flex-col flex-nowrap items-center w-full max-w-sm gap-y-1.5 lg:sticky lg:top-36">
-        <div className="max-w-[144px] lg:max-w-[208px]">
-          <Image
-            src="https://avatars.githubusercontent.com/u/124599?v=4"
+        {/* <div className="max-w-[144px] lg:max-w-[208px]"> */}
+        {/* <Image
+            src={user?.picture || ''}
             className="rounded-full"
             quality={100}
             alt="Profile image for Douglas"
@@ -30,11 +35,17 @@ export default function UserProfileSidebar() {
             placeholder="blur"
             blurDataURL={`${'https://avatars.githubusercontent.com/u/124599?v=4'}?auto=format,compress&q=1&blur=500&w=2`}
             priority
-          />
-        </div>
+          /> */}
+        <Avatar className="w-44 h-44 lg:w-52 lg:h-52">
+          <AvatarImage src={''} />
+          <AvatarFallback className="text-7xl">
+            {displayNameFallback(user?.displayName || '')}
+          </AvatarFallback>
+        </Avatar>
+        {/* </div> */}
         <div className="flex w-full my-2 justify-center items-center text-center">
           <h1 className="text-3xl font-bold sm:text-4xl bg-name-gradient bg-clip-text text-transparent">
-            Douglas Santos
+            {user.displayName}
           </h1>
           <div className="mx-2">{true ? <Badge /> : <BadgeUnchecked />}</div>
         </div>
@@ -71,32 +82,11 @@ export default function UserProfileSidebar() {
                   done.
                 </Dialog.Description>
               </Dialog.Header>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <label htmlFor="name" className="text-right">
-                    Name
-                  </label>
-                  <input
-                    id="name"
-                    value="Pedro Duarte"
-                    className="col-span-3"
-                  />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <label htmlFor="username" className="text-right">
-                    Username
-                  </label>
-                  <input
-                    id="username"
-                    value="@peduarte"
-                    className="col-span-3"
-                  />
-                </div>
-              </div>
+
               <Dialog.Footer>
                 <Button type="submit">Save changes</Button>
                 <Dialog.Close asChild>
-                  <Button variant="cancel">Cancel</Button>
+                  <Button variant="gray">Cancel</Button>
                 </Dialog.Close>
               </Dialog.Footer>
             </Dialog.Content>

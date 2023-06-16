@@ -18,6 +18,8 @@ import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/Avatar';
 import { usePathname } from 'next/navigation';
 import { bool } from 'sharp';
+import useAuth from '@/hooks/useAuth';
+import { displayNameFallback } from '@/utils/displayNameFallback';
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -26,6 +28,7 @@ interface SidebarItemNameProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 export const Sidebar: React.FC<SidebarProps> = () => {
+  const { user } = useAuth();
   const pathname = usePathname();
   const {
     collapseClickOrHover,
@@ -73,20 +76,22 @@ export const Sidebar: React.FC<SidebarProps> = () => {
         </SidebarItemName>
       </div>
 
-      <Link href="/douglas-eduardo">
+      <Link href={'/' + user.username}>
         <SidebarItem
           className="gap-x-2.5"
-          active={pathname === '/douglas-eduardo'}
+          active={pathname === '/' + user.username}
         >
           <Avatar className="w-8 h-8 -ml-1.5">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>DS</AvatarFallback>
+            <AvatarImage src={user.picture || ''} />
+            <AvatarFallback>
+              {displayNameFallback(user.displayName || '')}
+            </AvatarFallback>
           </Avatar>
           <SidebarItemName
             isCollapse={collapseClickOrHover}
             className="font-semibold shrink-0"
           >
-            <p>Douglas Santos</p>
+            <p>{user.displayName}</p>
           </SidebarItemName>
         </SidebarItem>
       </Link>
@@ -150,7 +155,7 @@ export const Sidebar: React.FC<SidebarProps> = () => {
     </>
   );
 
-  return (
+  return user ? (
     <>
       <div className="relative lg:hidden">
         <div
@@ -189,7 +194,7 @@ export const Sidebar: React.FC<SidebarProps> = () => {
         </div>
       </div>
     </>
-  );
+  ) : null;
 };
 
 const SidebarItem: React.FC<SidebarProps & { active: boolean }> = ({

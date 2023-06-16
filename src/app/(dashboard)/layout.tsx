@@ -1,6 +1,7 @@
 import Header from '@/components/Header';
 import { Sidebar } from '@/components/Sidebar';
 import { CollapseSidebarProvider } from '@/contexts/CollapseSidebar.context';
+import { AuthGuard } from '@/guards/AuthGuard';
 
 export const metadata = {
   title: 'Spectrum - Discover creators',
@@ -13,13 +14,15 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <CollapseSidebarProvider>
-      <Header />
-      <div className="pb-[72px] xl:pb-20" />
-      <div className="flex">
-        <Sidebar />
-        {children}
-      </div>
-    </CollapseSidebarProvider>
+    <AuthGuard>
+      <CollapseSidebarProvider>
+        <Header />
+        <div className="pb-16 xl:pb-20" />
+        <div className="flex">
+          <Sidebar />
+          {children}
+        </div>
+      </CollapseSidebarProvider>
+    </AuthGuard>
   );
 }
