@@ -1,10 +1,13 @@
 'use client';
+import Image from 'next/image';
 import { CreateProjectCard } from '@/components/CreateProjectCard';
 import { DeleteProjectCard } from '@/components/DeleteProjectCard';
+import { OneLiner } from '@/components/EditProfile/OneLiner';
 import { useCollapseSidebar } from '@/contexts/CollapseSidebar.context';
-import Image from 'next/image';
+import useAuth from '@/hooks/useAuth';
 
 export function UserProjectsList() {
+  const { user } = useAuth();
   const { collapseClick } = useCollapseSidebar();
 
   return (
@@ -14,9 +17,7 @@ export function UserProjectsList() {
       }`}
     >
       <div className="w-full hidden lg:block">
-        <h1 className="text-4xl leading-relaxed font-bold xl:text-5xl xl:leading-tight">
-          Software Engineer
-        </h1>
+        <OneLiner />
       </div>
       <div className="flex-1 mt-6 flex justify-center">
         <div className="relative w-full flex flex-wrap justify-center gap-y-5 gap-x-5 mx-4 lg:mx-0 lg:flex">

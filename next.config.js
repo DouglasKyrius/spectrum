@@ -5,6 +5,7 @@ const nextConfig = {
       'avatars.githubusercontent.com',
       'builds.contra.com',
       'lh3.googleusercontent.com',
+      'drive.google.com',
     ],
   },
 };

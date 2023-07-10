@@ -1,3 +1,4 @@
+import { PlusIcon } from 'lucide-react';
 import { Button } from './ui/Button';
 import { Dialog } from './ui/Dialog';
 
@@ -7,10 +8,8 @@ export const CreateProjectCard = () => {
       <div className="max-w-[240px]">
         <Dialog.Root>
           <Dialog.Trigger asChild>
-            <button className="active:scale-90 w-20 h-20 p-0.5 rounded-full border-2 border-[#e6e8ec] hover:bg-[#f5f6f9] transition-all">
-              <span className="flex items-center justify-center text-2xl">
-                +
-              </span>
+            <button className="flex items-center justify-center active:scale-90 w-12 h-12 p-0.5 rounded-full border-2 border-[#e6e8ec] hover:bg-[#f5f6f9] transition-all">
+              <PlusIcon color="#14171f" />
             </button>
           </Dialog.Trigger>
           <Dialog.Content className="sm:max-w-[425px]">
@@ -26,24 +25,12 @@ export const CreateProjectCard = () => {
                 Fill out the form below to create a new project.
               </Dialog.Description>
             </Dialog.Header>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <label htmlFor="name" className="text-right">
-                  Name
-                </label>
-                <input id="name" value="Pedro Duarte" className="col-span-3" />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <label htmlFor="username" className="text-right">
-                  Username
-                </label>
-                <input id="username" value="@peduarte" className="col-span-3" />
-              </div>
-            </div>
-            <Dialog.Footer>
-              <Button type="submit">Add Project</Button>
+            <Dialog.Footer className="sm:justify-center md:flex-row-reverse gap-x-4">
+              <Button type="submit" variant={'black'}>
+                Add Project
+              </Button>
               <Dialog.Close asChild>
-                <Button variant="gray">Cancel</Button>
+                <Button variant="outline">Cancel</Button>
               </Dialog.Close>
             </Dialog.Footer>
           </Dialog.Content>

@@ -14,15 +14,16 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AuthGuard>
-      <CollapseSidebarProvider>
-        <Header />
-        <div className="pb-16 xl:pb-20" />
-        <div className="flex">
-          <Sidebar />
-          {children}
-        </div>
-      </CollapseSidebarProvider>
-    </AuthGuard>
+    <>
+      <AuthGuard>
+        <CollapseSidebarProvider>
+          <Header />
+          <div className="flex">
+            <Sidebar />
+            {children}
+          </div>
+        </CollapseSidebarProvider>
+      </AuthGuard>
+    </>
   );
 }

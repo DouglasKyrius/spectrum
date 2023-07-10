@@ -2,7 +2,7 @@
 
 import UserProfileSidebar from '@/containers/UserProfileSidebar';
 
-export default function ExplorePage() {
+export default function DiscoverPage() {
   return (
     <div className="flex flex-1 min-h-screen transition-all">
       <div className="flex-1 w-full relative">

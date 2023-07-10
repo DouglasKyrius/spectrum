@@ -1,19 +1,93 @@
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/input';
+import { z } from 'zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import useAuth from '@/hooks/useAuth';
+import { useMutation } from '@apollo/client';
+import { LOGIN_USER } from '@/lib/graphql/login.graphql';
+import { Eye, EyeOff } from 'lucide-react';
+
+const loginUserSchema = z.object({
+  email: z
+    .string()
+    .nonempty({
+      message: 'Email is required',
+    })
+    .email({
+      message: 'Invalid email format',
+    })
+    .toLowerCase(),
+  password: z.string().nonempty({
+    message: 'Password is required',
+  }),
+});
+
+type LoginUserData = z.infer<typeof loginUserSchema>;
 
 export default function LogInPage() {
+  const { login } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
+  const [fetchError, setFetchError] = useState('');
   const [isLoading, setLoading] = useState(false);
+  const {
+    formState: { isSubmitting, errors },
+    handleSubmit,
+    setError,
+    register,
+  } = useForm<LoginUserData>({
+    resolver: zodResolver(loginUserSchema),
+  });
+
+  const [loginUser] = useMutation(LOGIN_USER, {
+    update(
+      _,
+      {
+        data: {
+          signIn: { access_token },
+        },
+      }
+    ) {
+      login({ accessToken: access_token });
+    },
+    onError({ graphQLErrors, networkError, clientErrors }) {
+      console.log(graphQLErrors);
+      if (networkError || clientErrors.length) {
+        setFetchError('Internal server error, please try again later.');
+        return;
+      }
+
+      if (graphQLErrors[0].extensions.code === 'INTERNAL_SERVER_ERROR')
+        setError('email', {
+          type: 'user-not-found',
+          message: graphQLErrors[0].message,
+        });
+      if (graphQLErrors[0].extensions.code === 'BAD_REQUEST')
+        setError('password', {
+          type: 'user/password-invalid',
+          message: graphQLErrors[0].message,
+        });
+    },
+  });
 
   const handleGoogleRedirect = () => {
     setLoading(true);
     window.location.assign(
       process.env.NEXT_PUBLIC_BACKEND_GOOGLE_LOGIN as string
     );
+  };
+
+  const handleLoginUser: SubmitHandler<LoginUserData> = async ({
+    email,
+    password,
+  }) => {
+    setFetchError('');
+    await loginUser({ variables: { input: { email, password } } });
   };
 
   return (
@@ -27,22 +101,63 @@ export default function LogInPage() {
               </h1>
               <p className="text-sm lg:text-base">Please enter your details</p>
             </div>
+            {fetchError ? (
+              <p className="text-xs pl-1 pt-1 text-red-600">
+                Internal server error, please try again later.
+              </p>
+            ) : null}
             <div className="my-4 lg:my-8">
-              <div className="flex flex-col gap-y-4">
-                <Input
-                  id="emailAddress"
-                  type="email"
-                  label="Email address"
-                  placeholder="name@email.com"
-                />
-                <Input
-                  id="password"
-                  type="password"
-                  label="Password"
-                  placeholder="* * * *"
-                />
-                <Button variant="black">Log in</Button>
-              </div>
+              <form onSubmit={handleSubmit(handleLoginUser)}>
+                <div className="flex flex-col gap-y-4">
+                  <div>
+                    <Input
+                      id="emailAddress"
+                      type="email"
+                      label="Email address"
+                      placeholder="name@email.com"
+                      hasError={!!errors.email}
+                      {...register('email')}
+                    />
+                    <p className="text-xs pl-1 pt-1 text-red-600">
+                      {errors.email?.message}
+                    </p>
+                  </div>
+                  <div className="relative">
+                    <Input
+                      id="password"
+                      type={showPassword ? 'text' : 'password'}
+                      label="Password"
+                      placeholder="* * * *"
+                      hasError={!!errors.password}
+                      {...register('password')}
+                    />
+                    {useMemo(
+                      () => (
+                        <button
+                          type="button"
+                          className="absolute right-0 top-4 p-2"
+                          onClick={() =>
+                            setShowPassword((prevState) => !prevState)
+                          }
+                        >
+                          {showPassword ? (
+                            <EyeOff size={22} />
+                          ) : (
+                            <Eye size={22} />
+                          )}
+                        </button>
+                      ),
+                      [showPassword]
+                    )}
+                    <p className="text-xs pl-1 pt-1 text-red-600">
+                      {errors.password?.message}
+                    </p>
+                  </div>
+                  <Button variant="black" isLoading={isSubmitting}>
+                    Log in
+                  </Button>
+                </div>
+              </form>
 
               <div className="flex flex-col gap-y-4 my-4">
                 <p className="text-[#9ba2b0] text-xs m-auto">OR</p>
@@ -63,6 +178,13 @@ export default function LogInPage() {
               alt="login logo"
               width={410}
               height={376}
+              priority
+              quality={100}
+              style={{ objectFit: 'cover' }}
+              placeholder="blur"
+              blurDataURL={
+                '/assets/Contra-Logo.b97834a1.png?auto=format,compress&q=1&blur=500&w=2'
+              }
             />
           </div>
         </div>

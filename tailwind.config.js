@@ -20,6 +20,7 @@ module.exports = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'name-gradient':
           'radial-gradient(189.37% 1750.88% at 1.77% 108.13%, rgb(97, 166, 242) 1.56%, rgb(143, 111, 219) 23.44%, rgb(255, 90, 94) 33.12%, rgb(242, 201, 76) 52%)',
+        'purple-gradient': 'linear-gradient(to bottom, #fff 10%, #D3CCE3);',
       },
       colors: {
         border: 'hsl(var(--border))',

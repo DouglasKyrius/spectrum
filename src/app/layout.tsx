@@ -1,4 +1,6 @@
+import NextTopLoader from 'nextjs-toploader';
 import { AuthProvider } from '@/contexts/JWTContext';
+import { GraphQlProvider } from '@/lib/apollo';
 import '@/styles/globals.css';
 
 export const metadata = {
@@ -14,7 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <AuthProvider>{children}</AuthProvider>
+        <NextTopLoader color="#6a57e3" height={4} showSpinner={false} />
+        <AuthProvider>
+          <GraphQlProvider>{children}</GraphQlProvider>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -21,13 +21,16 @@ import { bool } from 'sharp';
 import useAuth from '@/hooks/useAuth';
 import { displayNameFallback } from '@/utils/displayNameFallback';
 
-interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface SidebarItemProps extends React.HTMLAttributes<HTMLDivElement> {
+  active?: boolean;
+  disabled?: boolean;
+}
 
 interface SidebarItemNameProps extends React.HTMLAttributes<HTMLSpanElement> {
   isCollapse: boolean;
 }
 
-export const Sidebar: React.FC<SidebarProps> = () => {
+export const Sidebar: React.FC<React.HTMLAttributes<HTMLDivElement>> = () => {
   const { user } = useAuth();
   const pathname = usePathname();
   const {
@@ -42,7 +45,7 @@ export const Sidebar: React.FC<SidebarProps> = () => {
   const renderContent = (
     <>
       <div className="flex items-center justify-between text-white mb-7">
-        <div className="flex gap-x-1 items-center">
+        <div className="flex gap-x-1 items-center select-none">
           <span className="p-1">
             <Sparkles size={32} />
           </span>
@@ -76,39 +79,39 @@ export const Sidebar: React.FC<SidebarProps> = () => {
         </SidebarItemName>
       </div>
 
-      <Link href={'/' + user.username}>
+      <Link href={'/' + user?.username}>
         <SidebarItem
           className="gap-x-2.5"
-          active={pathname === '/' + user.username}
+          active={pathname === '/' + user?.username}
         >
           <Avatar className="w-8 h-8 -ml-1.5">
-            <AvatarImage src={user.picture || ''} />
+            <AvatarImage src={user?.picture || ''} />
             <AvatarFallback>
-              {displayNameFallback(user.displayName || '')}
+              {displayNameFallback(user?.displayName || '')}
             </AvatarFallback>
           </Avatar>
           <SidebarItemName
             isCollapse={collapseClickOrHover}
             className="font-semibold shrink-0"
           >
-            <p>{user.displayName}</p>
+            <p>{user?.displayName}</p>
           </SidebarItemName>
         </SidebarItem>
       </Link>
 
       <hr className="my-3 border-[#2c323e]" />
 
-      <Link href="/explore">
-        <SidebarItem active={pathname === '/explore'}>
+      <Link href="/discover">
+        <SidebarItem active={pathname === '/discover'}>
           <span>
             <Compass size={20} />
           </span>
           <SidebarItemName isCollapse={collapseClickOrHover}>
-            Explore
+            Discover
           </SidebarItemName>
         </SidebarItem>
       </Link>
-      <SidebarItem active={pathname === '/messages'}>
+      <SidebarItem disabled active={pathname === '/messages'}>
         <span>
           <MessageCircle size={20} />
         </span>
@@ -116,7 +119,7 @@ export const Sidebar: React.FC<SidebarProps> = () => {
           Messages
         </SidebarItemName>
       </SidebarItem>
-      <SidebarItem active={pathname === '/saved'}>
+      <SidebarItem disabled active={pathname === '/saved'}>
         <span>
           <Heart size={20} />
         </span>
@@ -125,7 +128,7 @@ export const Sidebar: React.FC<SidebarProps> = () => {
         </SidebarItemName>
       </SidebarItem>
       <hr className="my-3 border-[#2c323e]" />
-      <SidebarItem active={pathname === '/wallet'}>
+      <SidebarItem disabled active={pathname === '/wallet'}>
         <span>
           <Wallet size={20} />
         </span>
@@ -133,7 +136,7 @@ export const Sidebar: React.FC<SidebarProps> = () => {
           Wallet
         </SidebarItemName>
       </SidebarItem>
-      <SidebarItem active={pathname === '/opportunities'}>
+      <SidebarItem disabled active={pathname === '/opportunities'}>
         <span>
           <Briefcase size={20} />
         </span>
@@ -197,17 +200,21 @@ export const Sidebar: React.FC<SidebarProps> = () => {
   ) : null;
 };
 
-const SidebarItem: React.FC<SidebarProps & { active: boolean }> = ({
+const SidebarItem: React.FC<SidebarItemProps> = ({
   active,
+  disabled,
   className,
   children,
+  ...props
 }) => (
   <div
     className={cn(
       'relative flex gap-x-4 cursor-pointer select-none items-center rounded-lg px-2.5 py-2.5 text-sm text-white outline-none transition-colors hover:bg-gray-700 hover:text-accent',
       active ? 'bg-gray-700' : '',
+      disabled ? 'pointer-events-none opacity-50' : '',
       className
     )}
+    {...props}
   >
     {children}
   </div>

@@ -3,6 +3,7 @@
 import { FC, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Headroom from 'react-headroom';
 import { LifeBuoy, LogOut, Settings, Menu, Sparkles } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/Avatar';
 import { Dropdown } from './ui/dropdown-menu';
@@ -18,7 +19,7 @@ type URLTitles = {
 
 const urlTitles: URLTitles = {
   '/settings': 'Settings',
-  '/explore': 'Explore',
+  '/discover': 'Discover',
   '/wallet': 'Wallet',
 };
 
@@ -30,8 +31,8 @@ const Header: FC = () => {
 
   if (user)
     return (
-      <>
-        <div className="shadow-2xl shadow-cyan-100/20 w-full fixed z-50 bg-white/[0.8] border-b backdrop-blur-md">
+      <Headroom>
+        <div className="w-full bg-white/[0.8] border-b backdrop-blur-md">
           <nav className="flex justify-between items-center py-4 px-8 mx-auto lg:py-5">
             <div className="hidden lg:flex">
               <div
@@ -51,9 +52,9 @@ const Header: FC = () => {
             <Dropdown.Menu modal={false}>
               <Dropdown.MenuTrigger asChild className="cursor-pointer">
                 <Avatar>
-                  <AvatarImage src={user.picture} />
+                  <AvatarImage src={user?.picture} />
                   <AvatarFallback>
-                    {displayNameFallback(user.displayName)}
+                    {displayNameFallback(user?.displayName)}
                   </AvatarFallback>
                 </Avatar>
               </Dropdown.MenuTrigger>
@@ -63,9 +64,9 @@ const Header: FC = () => {
                 <Dropdown.MenuGroup>
                   <Dropdown.MenuItem>
                     <Avatar className="w-8 h-8 mr-2">
-                      <AvatarImage src={user.picture} />
+                      <AvatarImage src={user?.picture} />
                       <AvatarFallback>
-                        {displayNameFallback(user.displayName)}
+                        {displayNameFallback(user?.displayName)}
                       </AvatarFallback>
                     </Avatar>
                     <span>Profile</span>
@@ -76,7 +77,7 @@ const Header: FC = () => {
                   </Dropdown.MenuItem>
                 </Dropdown.MenuGroup>
                 <Dropdown.MenuSeparator />
-                <Dropdown.MenuItem>
+                <Dropdown.MenuItem disabled>
                   <LifeBuoy className="mr-2" size={18} />
                   <span>Support</span>
                 </Dropdown.MenuItem>
@@ -104,32 +105,36 @@ const Header: FC = () => {
             </Dialog.Footer>
           </Dialog.Content>
         </Dialog.Root>
-      </>
+      </Headroom>
     );
 
   return (
-    <div className="shadow-2xl shadow-cyan-100/20 w-full fixed z-50 bg-white/[0.8] border-b backdrop-blur-md">
-      <nav className="flex justify-between items-center py-4 px-8 mx-auto lg:py-5">
-        <Link href="/" className="flex items-center gap-x-2">
-          <span>
-            <Sparkles className="w-7 h-7 lg:w-8 lg:h-8" />
-          </span>
-          <span className="hidden lg:block font-black text-2xl">Spectrum</span>
-        </Link>
-        <div className="flex items-center gap-x-4">
-          <Link href="/auth/log-in">
-            <Button variant={'outline'} size={'sm'}>
-              Log in
-            </Button>
+    <Headroom>
+      <div className="xl:max-w-[1440px] mx-auto w-full bg-white/[0.8] backdrop-blur-md">
+        <nav className="flex justify-between items-center py-4 px-8 mx-auto lg:py-5">
+          <Link href="/" className="flex items-center gap-x-2">
+            <span>
+              <Sparkles className="w-7 h-7 lg:w-8 lg:h-8" />
+            </span>
+            <span className="hidden lg:block font-black text-2xl">
+              Spectrum
+            </span>
           </Link>
-          <Link href="/auth/sign-up">
-            <Button variant={'black'} size={'sm'}>
-              Sign up
-            </Button>
-          </Link>
-        </div>
-      </nav>
-    </div>
+          <div className="flex items-center gap-x-4">
+            <Link href="/auth/log-in">
+              <Button variant={'outline'} size={'sm'}>
+                Log in
+              </Button>
+            </Link>
+            <Link href="/auth/sign-up">
+              <Button variant={'black'} size={'sm'}>
+                Sign up
+              </Button>
+            </Link>
+          </div>
+        </nav>
+      </div>
+    </Headroom>
   );
 };
 

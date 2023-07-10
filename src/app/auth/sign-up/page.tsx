@@ -6,10 +6,13 @@ import { useMemo, useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { z } from 'zod';
 import { Eye, EyeOff } from 'lucide-react';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/input';
+import { useMutation } from '@apollo/client';
+import { CREATE_USER } from '@/lib/graphql/create-user.graphql';
+import useAuth from '@/hooks/useAuth';
 
 const createUserSchema = z.object({
   displayName: z
@@ -45,14 +48,42 @@ const createUserSchema = z.object({
 type CreateUserData = z.infer<typeof createUserSchema>;
 
 export default function SignUpPage() {
+  const { login } = useAuth();
   const [isLoading, setLoading] = useState(false);
+  const [fetchError, setFetchError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const {
     formState: { isSubmitting, errors },
     handleSubmit,
     register,
+    setError,
   } = useForm<CreateUserData>({
     resolver: zodResolver(createUserSchema),
+  });
+
+  const [createUser] = useMutation(CREATE_USER, {
+    update(
+      _,
+      {
+        data: {
+          signUp: { access_token: accessToken },
+        },
+      }
+    ) {
+      login({ accessToken });
+    },
+    onError({ graphQLErrors, networkError, clientErrors }) {
+      if (networkError || clientErrors.length) {
+        setFetchError('Internal server error, please try again later.');
+        return;
+      }
+
+      if (graphQLErrors[0].extensions.code === 'BAD_REQUEST')
+        setError('email', {
+          type: 'user-already-registered',
+          message: graphQLErrors[0].message,
+        });
+    },
   });
 
   const handleGoogleRedirect = () => {
@@ -62,8 +93,15 @@ export default function SignUpPage() {
     );
   };
 
-  const handleCreateUser = (data: CreateUserData) => {
-    console.log(data);
+  const handleCreateUser: SubmitHandler<CreateUserData> = async ({
+    displayName,
+    email,
+    password,
+  }) => {
+    setFetchError('');
+    await createUser({
+      variables: { input: { displayName, email, password } },
+    });
   };
 
   return (
@@ -77,6 +115,11 @@ export default function SignUpPage() {
               </h1>
               <p className="text-sm lg:text-base">Let&apos;s get started</p>
             </div>
+            {fetchError ? (
+              <p className="text-xs pl-1 pt-1 text-red-600">
+                Internal server error, please try again later.
+              </p>
+            ) : null}
             <div className="my-4 lg:my-8">
               <form onSubmit={handleSubmit(handleCreateUser)}>
                 <div className="flex flex-col gap-y-3">
@@ -161,6 +204,13 @@ export default function SignUpPage() {
               alt="login logo"
               width={410}
               height={376}
+              quality={100}
+              priority
+              style={{ objectFit: 'cover' }}
+              placeholder="blur"
+              blurDataURL={
+                '/assets/Contra-Logo.b97834a1.png?auto=format,compress&q=1&blur=500&w=2'
+              }
             />
           </div>
         </div>
