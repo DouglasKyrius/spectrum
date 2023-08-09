@@ -188,15 +188,19 @@ export default function LogInPage() {
             />
           </div>
         </div>
-        <div className="flex flex-wrap justify-center items-center gap-4">
-          <p className="text-zinc-500 text-sm">
-            Don&apos;t have an account? Create a free account here
-          </p>
-          <Link href="/auth/sign-up">
-            <Button variant="outline" size="sm">
-              Sign up
-            </Button>
-          </Link>
+        <div className="grid gap-y-2">
+          <div className="flex flex-wrap justify-center items-center gap-4">
+            <Link href="/auth/sign-up">
+              <Button variant="outline" size="sm">
+                New to Spectrum? Sign up
+              </Button>
+            </Link>
+          </div>
+          <div className="flex flex-wrap justify-center items-center gap-4">
+            <Link href="/auth/forgot-password" className="hover:underline">
+              <p className="text-zinc-500 text-sm">Forgot password?</p>
+            </Link>
+          </div>
         </div>
       </div>
     </div>
