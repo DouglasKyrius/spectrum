@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@apollo/client';
-import { Edit, MapPin } from 'lucide-react';
+import { EditIcon, MapPin } from 'lucide-react';
 import { z } from 'zod';
 import useAuth from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
@@ -113,7 +113,7 @@ export const Location = () => {
             <p className="text-base">{user?.location || 'Location'}</p>
           </div>
         </h1>
-        <Edit className="absolute top-2 right-2 text-zinc-400" size={18} />
+        <EditIcon className="absolute top-2 right-2 text-zinc-400" size={18} />
       </button>
     </div>
   );

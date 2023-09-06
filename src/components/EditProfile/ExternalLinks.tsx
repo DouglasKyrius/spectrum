@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@apollo/client';
-import { Edit, PlusIcon } from 'lucide-react';
+import { EditIcon, PlusIcon } from 'lucide-react';
 import {
   AiFillGithub,
   AiFillLinkedin,
@@ -152,7 +152,7 @@ export const ExternalLinks = () => {
                 <h1>Add your social links</h1>
               )}
             </div>
-            <Edit className="absolute top-2 right-2 text-zinc-400" size={18} />
+            <EditIcon className="absolute top-2 right-2 text-zinc-400" size={18} />
           </div>
         </Dialog.Trigger>
         <Dialog.Content className="sm:max-w-3xl">

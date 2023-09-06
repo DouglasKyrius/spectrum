@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { z } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Edit } from 'lucide-react';
+import { EditIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useMutation } from '@apollo/client';
 import { UPDATE_USER } from '@/lib/graphql/update-user.graphql';
@@ -113,7 +113,7 @@ export const OneLiner = () => {
           {user?.title || 'Add a professional one-liner'}
         </h1>
 
-        <Edit className="absolute top-2 right-2 text-zinc-400" size={18} />
+        <EditIcon className="absolute top-2 right-2 text-zinc-400" size={18} />
       </button>
     </div>
   );

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Edit } from 'lucide-react';
+import { EditIcon } from 'lucide-react';
 import { z } from 'zod';
 import useAuth from '@/hooks/useAuth';
 import { Button } from '../ui/Button';
@@ -114,7 +114,7 @@ export const Name = () => {
         <div className="mx-2">
           {user?.verifiedAccount ? <Badge /> : <BadgeUnchecked />}
         </div>
-        <Edit className="absolute top-4 right-2 text-zinc-400" size={18} />
+        <EditIcon className="absolute top-4 right-2 text-zinc-400" size={18} />
       </button>
     </div>
   );
